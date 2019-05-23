@@ -11,14 +11,21 @@ namespace PriceCalculatorTests
     [Fact]
     public void Product_Constructor_ReturnsValidObject()
     {
+      var name = _fixture.Create<string>();
+      var upc = _fixture.Create<int>();
+      var price = _fixture.Create<Money>();
+
       var sut = new Product
       {
-        Name = _fixture.Create<string>(),
-        Upc = _fixture.Create<int>(),
-        Price = _fixture.Create<Money>()
+        Name = name,
+        Upc = upc,
+        Price = price
       };
 
       Assert.NotNull(sut);
+      Assert.Equal(name, sut.Name);
+      Assert.Equal(upc, sut.Upc);
+      Assert.Equal(price, sut.Price);
     }
   }
 }
