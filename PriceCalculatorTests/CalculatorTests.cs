@@ -5,34 +5,23 @@ namespace PriceCalculatorTests
 {
   public class CalculatorTests
   {
-    [Fact]
-    public void Calculator_GivenProductAndTax20Percent_ReturnsCorrectPrice()
+    private Product _testProduct => new Product
     {
-      var product = new Product
-      {
-        Name = "The Little Prince",
-        Upc = 12345,
-        Price = new Money(20.25)
-      };
-      var tax = new Tax(20);
-      var sut = new Calculator(product, tax);
-      var result = sut.ToString();
-      Assert.Matches(@"Product price reported as \$20.25 before tax and \$24.30 after 20\% tax.", sut.ToString());
-    }
+      Name = "The Little Prince",
+      Upc = 12345,
+      Price = new Money(20.25)
+    };
 
-    [Fact]
-    public void Calculator_GivenProductAndTax21Percent_ReturnsCorrectPrice()
+    [Theory]
+    [InlineData(20, 24.30)]
+    [InlineData(21, 24.50)]
+    public void Calculator_GivenProductAndTax20Percent_ReturnsCorrectPrice(int taxInput, decimal expectedAmount)
     {
-      var product = new Product
-      {
-        Name = "The Little Prince",
-        Upc = 12345,
-        Price = new Money(20.25)
-      };
-      var tax = new Tax(21);
-      var sut = new Calculator(product, tax);
+      var tax = new Tax(taxInput);
+      var sut = new Calculator(_testProduct, tax);
       var result = sut.ToString();
-      Assert.Matches(@"Product price reported as \$20.25 before tax and \$24.50 after 21\% tax.", sut.ToString());
+      var expected = $@"Product price reported as {_testProduct.Price} before tax and {expectedAmount:C} after {tax} tax.";
+      Assert.Equal(expected, result);
     }
   }
 }
