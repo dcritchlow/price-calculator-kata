@@ -9,6 +9,7 @@
       Amount = amount;
     }
 
+    public static implicit operator decimal(Money m) => m.Amount;
     public override string ToString() => $"{Amount:C}";
   }
 }
