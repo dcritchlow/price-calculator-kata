@@ -8,7 +8,7 @@ namespace PriceCalculatorTests
     [Fact]
     public void Money_Constructor_ReturnsValidObject()
     {
-      var sut = new Money(1.00);
+      var sut = new Money(1.00m);
       Assert.Matches(@"\$1.00", sut.ToString());
     }
   }

@@ -2,9 +2,9 @@
 {
   public class Money
   {
-    public double Amount { get; }
+    public decimal Amount { get; }
 
-    public Money(double amount)
+    public Money(decimal amount)
     {
       Amount = amount;
     }

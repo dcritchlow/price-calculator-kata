@@ -2,9 +2,9 @@
 {
   public class Tax
   {
-    public double TaxPercentage { get; }
+    public decimal TaxPercentage { get; }
 
-    public Tax(double taxPercentage)
+    public Tax(decimal taxPercentage)
     {
       TaxPercentage = taxPercentage;
     }
