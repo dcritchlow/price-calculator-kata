@@ -1,4 +1,6 @@
-﻿namespace PriceCalculator
+﻿using System;
+
+namespace PriceCalculator
 {
   public class Calculator
   {
@@ -21,6 +23,6 @@
     private Money CalculatePrice() => new Money(_product.Price.Amount - CalculatedDiscount() + CalculatedTax());
     
 
-    public override string ToString() => $"Tax={_tax} Discount={_discount} Tax amount = {CalculatedTax()} Discount amount = {CalculatedDiscount()} Price before = {_product.Price} Price after = {CalculatePrice()}";
+    public override string ToString() => $"Tax={_tax}{Environment.NewLine}Discount={_discount}{Environment.NewLine}Tax amount = {CalculatedTax()}{Environment.NewLine}Discount amount = {CalculatedDiscount()}{Environment.NewLine}Price before = {_product.Price}{Environment.NewLine}Price after = {CalculatePrice()}";
   }
 }
