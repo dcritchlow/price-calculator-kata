@@ -1,4 +1,6 @@
-﻿namespace PriceCalculator
+﻿using System;
+
+namespace PriceCalculator
 {
   public class Money
   {
@@ -6,7 +8,7 @@
 
     public Money(decimal amount)
     {
-      Amount = amount;
+      Amount = Math.Round(amount, 2);
     }
 
     public static implicit operator decimal(Money m) => m.Amount;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CalculatorConsole
+namespace CalculatorConsole.Infrastructure
 {
   public static class StringExtensions
   {

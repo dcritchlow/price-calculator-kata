@@ -1,12 +1,14 @@
-﻿namespace PriceCalculator
+﻿namespace PriceCalculator.Discounts
 {
-  public class Discount
+  public class UpcDiscount : IDiscount
   {
     public decimal DiscountPercentage { get; }
+    public int Upc { get; }
 
-    public Discount(decimal discountPercentage)
+    public UpcDiscount(decimal discountPercentage, int upc)
     {
       DiscountPercentage = discountPercentage;
+      Upc = upc;
     }
 
     public override string ToString() => $"{DiscountPercentage}%";

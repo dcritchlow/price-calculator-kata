@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CalculatorConsole
+namespace CalculatorConsole.Infrastructure
 {
   public static class TextReaderExtensions
   {
