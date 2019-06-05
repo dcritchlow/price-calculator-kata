@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using PriceCalculator.Discounts;
+using PriceCalculator.Reports;
 
 namespace PriceCalculator
 {
@@ -21,19 +22,36 @@ namespace PriceCalculator
       _upcDiscount = upcDiscount;
     }
 
-    private Money CalculatedDiscount()
+    private Money BeforeTaxDiscount()
     {
       var discountAmount = _rules
-        .Where(discountRule => discountRule.ApplyTo(_product))
+        .Where(discountRule => discountRule.ApplyTo(_product) && discountRule.BeforeTax)
         .Sum(discountRule => _product.Price.Amount * (discountRule.Discount.DiscountPercentage / 100));
       return new Money(discountAmount);
     }
 
-    private Money CalculatedTax() => new Money(_product.Price.Amount * (_tax.TaxPercentage / 100));
+    private Money AfterTaxDiscount(Money price)
+    {
+      var discountAmount = _rules
+        .Where(discountRule => discountRule.ApplyTo(_product) && discountRule.AfterTax)
+        .Sum(discountRule => price * (discountRule.Discount.DiscountPercentage / 100));
+      return new Money(discountAmount);
+    }
 
-    private Money CalculatePrice() => new Money(_product.Price.Amount - CalculatedDiscount() + CalculatedTax());
-    
+    private Money CalculatedTax(Money price) => new Money(price * (_tax.TaxPercentage / 100));
 
-    public override string ToString() => $"Tax={_tax}{Environment.NewLine}Tax amount = {CalculatedTax()}{Environment.NewLine}Discount amount = {CalculatedDiscount()}{Environment.NewLine}Price before = {_product.Price}{Environment.NewLine}Price after = {CalculatePrice()}";
+    private string CalculatePrice()
+    {
+      var beforeTaxDiscount = BeforeTaxDiscount();
+      var beforeTaxDiscountPrice = new Money(_product.Price.Amount - beforeTaxDiscount);
+      var afterTaxDiscount = AfterTaxDiscount(beforeTaxDiscountPrice);
+      var totalDiscount = new Money(beforeTaxDiscount + afterTaxDiscount);
+      var tax = CalculatedTax(beforeTaxDiscountPrice);
+      var finalPrice = new Money(beforeTaxDiscountPrice + tax - afterTaxDiscount);
+      return new StringReport().PrintReport(_product.Price, totalDiscount, finalPrice);
+    }
+
+
+    public override string ToString() => CalculatePrice();
   }
 }

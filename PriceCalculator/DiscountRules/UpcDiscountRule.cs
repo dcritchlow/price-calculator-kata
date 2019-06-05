@@ -14,5 +14,7 @@ namespace PriceCalculator.DiscountRules
     }
 
     public bool ApplyTo(Product product) => product.Upc == _upc;
+    public bool BeforeTax => true;
+    public bool AfterTax => false;
   }
 }

@@ -12,5 +12,7 @@ namespace PriceCalculator.DiscountRules
     }
 
     public bool ApplyTo(Product product) => true;
+    public bool BeforeTax => false;
+    public bool AfterTax => true;
   }
 }
